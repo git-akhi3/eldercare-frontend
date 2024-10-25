@@ -74,12 +74,12 @@ const Caretaker = () => {
                 <Typography variant="h6" component="div">
                   {elder.username}
                 </Typography>
-                {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
                   Age: {elder.age}
                 </Typography>
                 <Typography variant="body2">
                   Health Status: {elder.healthStatus}
-                </Typography> */}
+                </Typography>
               </CardContent>
               <CardActions>
                 <Button size="small" onClick={() => handleViewDetails(elder.id)}>View Details</Button>

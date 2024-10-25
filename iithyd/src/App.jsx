@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Login from './Components/Forms/Login';
 import Signup from './Components/Forms/Signup';
 import Elder from './Components/Dashboard/Elder';
 import Caretaker from './Components/Dashboard/Caretaker';
 import Admin from './Components/Dashboard/Admin';
-
+import DashboardLayout from './Components/Layout/DashboardLayout';
+import { ColorModeContext } from './contexts/ColorModeContext';
+import ElderDetails from './Components/Dashboard/ElderDetails';
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -61,79 +65,121 @@ const AuthLayout = ({ children }) => {
 };
 
 function App() {
+  const [mode, setMode] = useState('light');
+
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+    }),
+    [],
+  );
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+        },
+      }),
+    [mode],
+  );
+
   return (
-    <Routes>
-      {/* Public Routes (only accessible when NOT logged in) */}
-      <Route
-        path="/login"
-        element={
-          <AuthLayout>
-            <Login />
-          </AuthLayout>
-        }
-      />
-      <Route
-        path="/signup"
-        element={
-          <AuthLayout>
-            <Signup />
-          </AuthLayout>
-        }
-      />
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Routes>
+          {/* Public Routes */}
+          <Route
+            path="/login"
+            element={
+              <AuthLayout>
+                <Login />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <AuthLayout>
+                <Signup />
+              </AuthLayout>
+            }
+          />
 
-      {/* Protected Routes */}
-      <Route
-        path="/elder/*"
-        element={
-          <ProtectedRoute>
-            <Elder />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/caretaker/*"
-        element={
-          <ProtectedRoute>
-            <Caretaker />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/*"
-        element={
-          <ProtectedRoute>
-            <Admin />
-          </ProtectedRoute>
-        }
-      />
+          {/* Protected Routes */}
+          <Route
+            path="/elder/*"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Elder />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/caretaker/*"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Caretaker />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/*"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Admin />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/elder/:id"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <ElderDetails />
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
 
-      {/* Redirect root to login */}
-      <Route
-        path="/"
-        element={
-          <AuthLayout>
-            <Login />
-          </AuthLayout>
-        }
-      />
+          {/* Redirect root to login */}
+          <Route
+            path="/"
+            element={
+              <AuthLayout>
+                <Login />
+              </AuthLayout>
+            }
+          />
 
-      {/* 404 Route */}
-      <Route
-        path="*"
-        element={
-          <div className="flex flex-col items-center justify-center min-h-screen">
-            <h1 className="text-4xl font-bold mb-4">404: Page Not Found</h1>
-            <p className="text-gray-600 mb-4">The page you're looking for doesn't exist.</p>
-            <button
-              onClick={() => window.history.back()}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Go Back
-            </button>
-          </div>
-        }
-      />
-    </Routes>
+          {/* 404 Route */}
+          <Route
+            path="*"
+            element={
+              <div className="flex flex-col items-center justify-center min-h-screen">
+                <h1 className="text-4xl font-bold mb-4">404: Page Not Found</h1>
+                <p className="text-gray-600 mb-4">The page you're looking for doesn't exist.</p>
+                <button
+                  onClick={() => window.history.back()}
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Go Back
+                </button>
+              </div>
+            }
+          />
+        </Routes>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 
