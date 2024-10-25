@@ -9,14 +9,17 @@ import {
   Button, 
   CircularProgress, 
   Snackbar, 
-  Alert 
+  Alert,
+  Drawer
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import AddElderForm from '../Forms/AddElderForm';
 
 const Caretaker = () => {
   const [elders, setElders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,7 +50,21 @@ const Caretaker = () => {
   };
 
   const handleViewDetails = (elderId) => {
-    navigate(`/elder/${elderId}`);
+    console.log('Navigating to elder details:', elderId);
+    window.location.href = `/elder/${elderId}`;
+  };
+
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
+  const handleElderAdded = () => {
+    fetchElders();
+    setError('New elder added successfully');
   };
 
   if (loading) {
@@ -60,15 +77,20 @@ const Caretaker = () => {
 
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Caretaker Dashboard
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Typography variant="h4" gutterBottom>
+          Caretaker Dashboard
+        </Typography>
+        <Button variant="contained" color="primary" onClick={handleDrawerOpen}>
+          Add Elder
+        </Button>
+      </Box>
       <Typography variant="h6" gutterBottom>
         Elders under your care
       </Typography>
       <Grid container spacing={3}>
         {elders.map((elder) => (
-          <Grid item xs={12} sm={6} md={4} key={elder.id}>
+          <Grid item xs={12} sm={6} md={4} key={elder._id}>
             <Card>
               <CardContent>
                 <Typography variant="h6" component="div">
@@ -82,14 +104,21 @@ const Caretaker = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" onClick={() => handleViewDetails(elder.id)}>View Details</Button>
+                <Button size="small" onClick={() => handleViewDetails(elder._id)}>View Details</Button>
               </CardActions>
             </Card>
           </Grid>
         ))}
       </Grid>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+      >
+        <AddElderForm onClose={handleDrawerClose} onElderAdded={handleElderAdded} />
+      </Drawer>
       <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError(null)}>
-        <Alert onClose={() => setError(null)} severity="error" sx={{ width: '100%' }}>
+        <Alert onClose={() => setError(null)} severity={error === 'New elder added successfully' ? 'success' : 'error'} sx={{ width: '100%' }}>
           {error}
         </Alert>
       </Snackbar>
@@ -98,4 +127,3 @@ const Caretaker = () => {
 };
 
 export default Caretaker;
-

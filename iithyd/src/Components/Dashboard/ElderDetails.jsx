@@ -16,12 +16,15 @@ import {
 } from '@mui/material';
 
 const ElderDetails = () => {
+  console.log('ElderDetails component rendered');
   const { id } = useParams();
+  console.log('Elder ID from params:', id); // Add this for debugging
   const [elder, setElder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log('Fetching elder details for ID:', id); // Add this for debugging
     fetchElderDetails();
   }, [id]);
 
@@ -117,4 +120,3 @@ const ElderDetails = () => {
 };
 
 export default ElderDetails;
-

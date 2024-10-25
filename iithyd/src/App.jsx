@@ -111,7 +111,7 @@ function App() {
 
           {/* Protected Routes */}
           <Route
-            path="/elder/*"
+            path="/elder"
             element={
               <ProtectedRoute>
                 <DashboardLayout>
@@ -120,8 +120,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+           <Route path="/elder/:id" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ElderDetails />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+
           <Route
-            path="/caretaker/*"
+            path="/caretaker"
             element={
               <ProtectedRoute>
                 <DashboardLayout>
@@ -130,6 +138,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          
           <Route
             path="/admin/*"
             element={
@@ -140,16 +149,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/elder/:id"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout>
-                  <ElderDetails />
-                </DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
+          
 
           {/* Redirect root to login */}
           <Route

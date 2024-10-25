@@ -7,7 +7,9 @@ import {
   Container, 
   Paper,
   Snackbar,
-  Alert
+  Alert,
+  Grid,
+  Link
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
@@ -104,6 +106,10 @@ const Login = () => {
     setOpenSnackbar(false);
   };
 
+  const handleRegister = () => {
+    navigate('/signup');
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -144,6 +150,13 @@ const Login = () => {
             >
               Log In
             </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link component="button" variant="body2" onClick={handleRegister}>
+                  Don't have an account? Sign Up
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         </Paper>
       </Container>
