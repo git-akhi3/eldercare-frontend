@@ -18,20 +18,20 @@ import {
 const ElderDetails = () => {
   console.log('ElderDetails component rendered');
   const { id } = useParams();
-  console.log('Elder ID from params:', id); // Add this for debugging
+  console.log('Elder ID from params:', id);
   const [elder, setElder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log('Fetching elder details for ID:', id); // Add this for debugging
+    console.log('Fetching elder details for ID:', id);
     fetchElderDetails();
   }, [id]);
 
   const fetchElderDetails = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/users/elders/${id}`, {
+      const response = await fetch(`/api/users/elders/671a99ce3b28de5b42e7c2d0`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -73,19 +73,23 @@ const ElderDetails = () => {
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>Medications</Typography>
-              <List>
-                {elder.medications.map((medication, index) => (
-                  <React.Fragment key={index}>
-                    <ListItem>
-                      <ListItemText 
-                        primary={medication.name} 
-                        secondary={`Dosage: ${medication.dosage}, Time: ${medication.time}`} 
-                      />
-                    </ListItem>
-                    {index < elder.medications.length - 1 && <Divider />}
-                  </React.Fragment>
-                ))}
-              </List>
+              {elder.medications && elder.medications.length > 0 ? (
+                <List>
+                  {elder.medications.map((medication, index) => (
+                    <React.Fragment key={index}>
+                      <ListItem>
+                        <ListItemText 
+                          primary={medication.name} 
+                          secondary={`Dosage: ${medication.dosage}, Time: ${medication.time}`} 
+                        />
+                      </ListItem>
+                      {index < elder.medications.length - 1 && <Divider />}
+                    </React.Fragment>
+                  ))}
+                </List>
+              ) : (
+                <Typography>No medications found.</Typography>
+              )}
             </CardContent>
           </Card>
         </Grid>
@@ -93,19 +97,23 @@ const ElderDetails = () => {
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>Appointments</Typography>
-              <List>
-                {elder.appointments.map((appointment, index) => (
-                  <React.Fragment key={index}>
-                    <ListItem>
-                      <ListItemText 
-                        primary={appointment.title} 
-                        secondary={`Date: ${appointment.date}, Time: ${appointment.time}`} 
-                      />
-                    </ListItem>
-                    {index < elder.appointments.length - 1 && <Divider />}
-                  </React.Fragment>
-                ))}
-              </List>
+              {elder.appointments && elder.appointments.length > 0 ? (
+                <List>
+                  {elder.appointments.map((appointment, index) => (
+                    <React.Fragment key={index}>
+                      <ListItem>
+                        <ListItemText 
+                          primary={appointment.title} 
+                          secondary={`Date: ${appointment.date}, Time: ${appointment.time}`} 
+                        />
+                      </ListItem>
+                      {index < elder.appointments.length - 1 && <Divider />}
+                    </React.Fragment>
+                  ))}
+                </List>
+              ) : (
+                <Typography>No appointments found.</Typography>
+              )}
             </CardContent>
           </Card>
         </Grid>

@@ -12,7 +12,7 @@ import {
   Alert,
   Drawer
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AddElderForm from '../Forms/AddElderForm';
 
 const Caretaker = () => {
@@ -21,6 +21,7 @@ const Caretaker = () => {
   const [error, setError] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     fetchElders();
@@ -50,10 +51,12 @@ const Caretaker = () => {
   };
 
   const handleViewDetails = (elderId) => {
-    console.log('Navigating to elder details:', elderId);
-    window.location.href = `/elder/${elderId}`;
+    console.log('Current location:', location.pathname);
+    console.log('Attempting to navigate to:', `/elder/${elderId}`);
+    console.log('Elder ID:', elderId);
+    navigate(`/elder/${elderId}`);
   };
-
+ 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
   };
@@ -104,7 +107,7 @@ const Caretaker = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" onClick={() => handleViewDetails(elder._id)}>View Details</Button>
+                <Button size="small" onClick={()=> handleViewDetails('elder._id')}>View Details</Button>
               </CardActions>
             </Card>
           </Grid>
