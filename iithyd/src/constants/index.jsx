@@ -66,60 +66,60 @@ export const features = [
     icon: <BotMessageSquare />,
     text: "Drag-and-Drop Interface",
     description:
-      "Easily design and arrange your VR environments with a user-friendly drag-and-drop interface.",
+      "Organize and track elder care tasks effortlessly with a simple drag-and-drop interface.",
   },
   {
     icon: <Fingerprint />,
     text: "Multi-Platform Compatibility",
     description:
-      "Build VR applications that run seamlessly across multiple platforms, including mobile, desktop, and VR headsets.",
+      "Access and manage elder care information seamlessly across mobile, desktop, and tablet devices.",
   },
   {
     icon: <ShieldHalf />,
     text: "Built-in Templates",
     description:
-      "Jumpstart your VR projects with a variety of built-in templates for different types of applications and environments.",
+      "Get started quickly with templates tailored for elder care coordination, from scheduling to health tracking.",
   },
   {
     icon: <BatteryCharging />,
-    text: "Real-Time Preview",
+    text: "Real-Time Updates",
     description:
-      "Preview your VR application in real-time as you make changes, allowing for quick iterations and adjustments.",
+      "Stay informed with real-time updates on elder care activities and health status.",
   },
   {
     icon: <PlugZap />,
     text: "Collaboration Tools",
     description:
-      "Work together with your team in real-time on VR projects, enabling seamless collaboration and idea sharing.",
+      "Coordinate in real-time with family members and healthcare providers, ensuring unified and responsive elder care.",
   },
   {
     icon: <GlobeLock />,
     text: "Analytics Dashboard",
     description:
-      "Gain valuable insights into user interactions and behavior within your VR applications with an integrated analytics dashboard.",
+      "Gain insights into elder health and care patterns with an integrated analytics dashboard, helping you make informed decisions.",
   },
 ];
 
 export const checklistItems = [
   {
-    title: "Code merge made easy",
+    title: "Care Coordination Made Easy",
     description:
-      "Track the performance of your VR apps and gain insights into user behavior.",
+      "Effortlessly manage and merge elder care plans to ensure comprehensive support..",
   },
   {
-    title: "Review code without worry",
+    title: "Review Care Plans with Confidence",
     description:
-      "Track the performance of your VR apps and gain insights into user behavior.",
+      "Evaluate care strategies without hassle, keeping track of health progress and needs.",
   },
   {
-    title: "AI Assistance to reduce time",
+    title: "AI Assistance for Enhanced Care",
     description:
-      "Track the performance of your VR apps and gain insights into user behavior.",
+      "Utilize AI tools to streamline care processes and optimize support for elders.",
   },
   {
-    title: "Share work in minutes",
+    title: "Share Updates in Minutes",
     description:
-      "Track the performance of your VR apps and gain insights into user behavior.",
+      "Quickly share health updates and care information with family and caretakers.",
   },
 ];
 
