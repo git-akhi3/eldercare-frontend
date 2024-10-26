@@ -21,18 +21,23 @@ import Footer from './Components/Landing/Footer';
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
   const userRole = localStorage.getItem('userRole');
+  const path = window.location.pathname;
+
+  console.log('ProtectedRoute - Current path:', path);
+  console.log('ProtectedRoute - User role:', userRole);
 
   if (!token) {
+    console.log('ProtectedRoute - No token, redirecting to login');
     return <Navigate to="/login" replace />;
   }
 
-  // Check if user is trying to access the correct dashboard for their role
-  const path = window.location.pathname;
+  // Check if user is trying to access a route they're not allowed to
   if (
-    (path.includes('/elder') && userRole !== 'elder') ||
-    (path.includes('/caretaker') && userRole !== 'caretaker') ||
-    (path.includes('/admin') && userRole !== 'admin')
+    (path.startsWith('/elder') && userRole !== 'elder' && userRole !== 'caretaker') ||
+    (path.startsWith('/caretaker') && userRole !== 'caretaker') ||
+    (path.startsWith('/admin') && userRole !== 'admin')
   ) {
+    console.log('ProtectedRoute - Unauthorized access, redirecting');
     // Redirect to appropriate dashboard based on role
     switch (userRole) {
       case 'elder':
@@ -46,6 +51,7 @@ const ProtectedRoute = ({ children }) => {
     }
   }
 
+  console.log('ProtectedRoute - Rendering children');
   return children;
 };
 
@@ -67,8 +73,13 @@ const AuthLayout = ({ children }) => {
         return <Navigate to="/login" replace />;
     }
   }
-
+  
   return children;
+};
+
+const LoggingRoute = ({ element, path }) => {
+  console.log(`Rendering route: ${path}`);
+  return element;
 };
 
 function App() {
@@ -131,34 +142,56 @@ function App() {
               </AuthLayout>
             }
           />
+          <Route 
+            path="/elder/:id" 
+            element={
+              <LoggingRoute
+                path="/elder/:id"
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <ElderDetails />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                }
+              />
+            } 
+          />
+          
+            <Route 
+              path="/elder"
+              element={
+                <LoggingRoute
+                  path="/elder"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout>
+                        <Elder />
+                      </DashboardLayout>
+                    </ProtectedRoute>
+                  }
+                />
+              }
+            />
+           
+
 
           {/* Protected Routes */}
-          <Route
-            path="/elder"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout>
-                  <Elder />
-                </DashboardLayout>
-              </ProtectedRoute>
-            }
-          />
-           <Route path="/elder/:id" element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <ElderDetails />
-              </DashboardLayout>
-            </ProtectedRoute>
-          } />
-
+          
+          
           <Route
             path="/caretaker"
             element={
-              <ProtectedRoute>
-                <DashboardLayout>
-                  <Caretaker />
-                </DashboardLayout>
-              </ProtectedRoute>
+              <LoggingRoute
+                path="/caretaker"
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <Caretaker />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                }
+              />
             }
           />
           

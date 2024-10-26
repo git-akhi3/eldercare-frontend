@@ -12,7 +12,7 @@ import {
   Alert,
   Drawer
 } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation ,Link} from 'react-router-dom';
 import AddElderForm from '../Forms/AddElderForm';
 
 const Caretaker = () => {
@@ -107,7 +107,9 @@ const Caretaker = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" onClick={()=> handleViewDetails('elder._id')}>View Details</Button>
+                <Link to={`/elder/${elder._id}`} style={{ textDecoration: 'none' }}>
+                  <Button size="small">View Details</Button>
+                </Link>
               </CardActions>
             </Card>
           </Grid>
