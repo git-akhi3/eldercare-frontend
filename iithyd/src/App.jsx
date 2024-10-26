@@ -118,7 +118,7 @@ function App() {
                 <HeroSection />
                 <FeatureSection />
                 <Workflow />
-                <Testimonials />
+                
               
                 <Footer />
               </>
