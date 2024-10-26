@@ -10,6 +10,13 @@ import Admin from './Components/Dashboard/Admin';
 import DashboardLayout from './Components/Layout/DashboardLayout';
 import { ColorModeContext } from './contexts/ColorModeContext';
 import ElderDetails from './Components/Dashboard/ElderDetails';
+import Navbar from './Components/Landing/Navbar';
+import HeroSection from './Components/Landing/HeroSection';
+import FeatureSection from './Components/Landing/FeatureSection';
+import Workflow from './Components/Landing/Workflow';
+import Testimonials from './Components/Landing/Testimonials';
+
+import Footer from './Components/Landing/Footer';
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -91,6 +98,22 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
+          {/* Landing Page Route */}
+          <Route
+            path="/"
+            element={
+              <>
+                <Navbar />
+                <HeroSection />
+                <FeatureSection />
+                <Workflow />
+                <Testimonials />
+              
+                <Footer />
+              </>
+            }
+          />
+
           {/* Public Routes */}
           <Route
             path="/login"
