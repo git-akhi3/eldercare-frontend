@@ -14,21 +14,15 @@ import {
   Paper,
   Checkbox,
   IconButton,
-  ListItemSecondaryAction
+  ListItemSecondaryAction,
+  Avatar,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent
 } from '@mui/material';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-
-// Mock heart rate data
-const mockHeartRateData = [
-  { date: '2023-05-01', rate: 72 },
-  { date: '2023-05-02', rate: 75 },
-  { date: '2023-05-03', rate: 70 },
-  { date: '2023-05-04', rate: 73 },
-  { date: '2023-05-05', rate: 71 },
-  { date: '2023-05-06', rate: 74 },
-  { date: '2023-05-07', rate: 76 },
-];
+import DescriptionIcon from '@mui/icons-material/Description';
 
 // Mock medications data
 const mockMedications = [
@@ -45,12 +39,28 @@ const mockAppointments = [
   { id: 3, title: 'Eye Exam', date: '2023-05-25', time: '11:30 AM' },
 ];
 
+// Updated mock elder data with profile picture
+const mockElderData = {
+  id: '1',
+  username: 'John Doe',
+  profilePic: 'pp1.jpg', // Replace with actual URL
+  // ... other elder details
+};
+
+// Mock past medical records data
+const mockPastMedicalRecords = [
+  { id: 1, name: 'Prescription 2023-01-15.pdf', url: '/path/to/prescription1.pdf' },
+  { id: 2, name: 'Prescription 2023-03-22.pdf', url: '/path/to/prescription2.pdf' },
+  { id: 3, name: 'Prescription 2023-04-30.pdf', url: '/path/to/prescription3.pdf' },
+];
+
 const ElderDetails = () => {
   const { id } = useParams();
   const [elder, setElder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [medications, setMedications] = useState(mockMedications);
+  const [openRecords, setOpenRecords] = useState(false);
 
   useEffect(() => {
     const fetchElderDetails = async () => {
@@ -85,6 +95,14 @@ const ElderDetails = () => {
     ));
   };
 
+  const handleOpenRecords = () => {
+    setOpenRecords(true);
+  };
+
+  const handleCloseRecords = () => {
+    setOpenRecords(false);
+  };
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -103,9 +121,44 @@ const ElderDetails = () => {
 
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Elder Details: {elder.username}
-      </Typography>
+      <Grid container spacing={3} alignItems="center" mb={3}>
+        <Grid item>
+          <Avatar
+            src={elder.profilePic}
+            alt={elder.username}
+            sx={{ width: 100, height: 100 }}
+          />
+        </Grid>
+        <Grid item>
+          <Typography variant="h4">
+            Elder Details: {elder.username}
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            startIcon={<DescriptionIcon />}
+            onClick={handleOpenRecords}
+          >
+            Past Medical Records
+          </Button>
+        </Grid>
+      </Grid>
+
+      {/* Past Medical Records Dialog */}
+      <Dialog open={openRecords} onClose={handleCloseRecords}>
+        <DialogTitle>Past Medical Records</DialogTitle>
+        <DialogContent>
+          <List>
+            {mockPastMedicalRecords.map((record) => (
+              <ListItem key={record.id} button component="a" href={record.url} target="_blank">
+                <ListItemText primary={record.name} />
+              </ListItem>
+            ))}
+          </List>
+        </DialogContent>
+      </Dialog>
+
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ p: 2 }}>
@@ -151,29 +204,6 @@ const ElderDetails = () => {
                 </React.Fragment>
               ))}
             </List>
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper elevation={3} sx={{ p: 2 }}>
-            <Typography variant="h6" gutterBottom>Average Heart Rate Over Time</Typography>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart
-                data={mockHeartRateData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="rate" stroke="#8884d8" activeDot={{ r: 8 }} />
-              </LineChart>
-            </ResponsiveContainer>
           </Paper>
         </Grid>
       </Grid>

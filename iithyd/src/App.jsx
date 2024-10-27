@@ -15,7 +15,8 @@ import HeroSection from './Components/Landing/HeroSection';
 import FeatureSection from './Components/Landing/FeatureSection';
 import Workflow from './Components/Landing/Workflow';
 import Testimonials from './Components/Landing/Testimonials';
-
+import CaregiversDashboard from './Components/Dashboard/Caretaker';
+import Stats from './Components/Dashboard/Stats';
 import Footer from './Components/Landing/Footer';
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -194,6 +195,22 @@ function App() {
               />
             }
           />
+          <Route
+            path="/caretaker/stats"
+            element={
+              <LoggingRoute
+                path="/caretaker/stats"
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <Stats/>
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                }
+              />
+            }
+          />
+          
           
           <Route
             path="/admin/*"
@@ -233,6 +250,9 @@ function App() {
               </div>
             }
           />
+          <Route path="/caregiver" element={<CaregiversDashboard />} />
+          <Route path="/caregiver/elder/:id" element={<ElderDetails />} />
+          <Route path="/caregiver/stats" element={<Stats />} />
         </Routes>
       </ThemeProvider>
     </ColorModeContext.Provider>
