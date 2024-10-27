@@ -15,6 +15,7 @@ import {
   useTheme,
   styled
 } from '@mui/material';
+import { keyframes } from '@mui/system';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -28,21 +29,31 @@ import { ColorModeContext } from '../../contexts/ColorModeContext';
 
 const drawerWidth = 240;
 
+// Define the gradient animation with boomerang effect
+const gradientAnimation = keyframes`
+  0%, 100% {
+    background-position: 50% 100%;
+  }
+  50% {
+    background-position: 50% 0%;
+  }
+`;
+
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(3), // Add padding here
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: 0,
+    marginLeft: `-${drawerWidth}px`,
     ...(open && {
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      marginLeft: drawerWidth,
+      marginLeft: 0,
     }),
   }),
 );
